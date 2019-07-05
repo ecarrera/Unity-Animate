@@ -38,19 +38,23 @@ The animation state needs:
 
 To start all the animation states together:
 
-    GetComponent<Animate>().RunAnimations();
+```csharp
+GetComponent<Animate>().RunAnimations();
+```
 
 If you prefer to run animation state separated (*example for the first state*):
 
-	int stateIndex = 0;
-    GetComponent<Animate>().AnimateState(stateIndex);
-
+```csharp
+int stateIndex = 0;
+GetComponent<Animate>().AnimateState(stateIndex);
+```
 
 ## What it does not do?
 The script can not run nested properties. Ex: Trying to animate the color of the material in a MeshRenderer.
 
-    GetComponent<MeshRenderer>().material.color
-
+```csharp
+GetComponent<MeshRenderer>().material.color
+```
 
 ## Working parameter types
 
