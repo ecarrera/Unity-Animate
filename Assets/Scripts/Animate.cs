@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
 using MyBox;
@@ -32,14 +33,38 @@ namespace EC {
     public class Animate : MonoBehaviour
 	{
 		public AnimationState[] states;
+        List<IEnumerator> runningAnimations = new List<IEnumerator>();
 
         /// <summary>
         /// Run all state animations
         /// </summary>
-        public void RunAnimations()
+        public void RunAnimations(bool stopRunning = false)
         {
+            if (stopRunning)
+            {
+                for (int i = 0; i < runningAnimations.Count; i++)
+                    if (runningAnimations[i] != null)
+                        StopCoroutine(runningAnimations[i]);
+            }
+
             for (int i = 0; i < states.Length; i++)
                 AnimateState(i);
+        }
+
+        /// <summary>
+        /// Runs the array of state animations
+        /// </summary>
+        public void RunAnimations(int[] statesToRun,bool stopRunning = false)
+        {
+            if (stopRunning)
+            {
+                for (int i = 0; i < runningAnimations.Count; i++)
+                    if (runningAnimations[i] != null)
+                        StopCoroutine(runningAnimations[i]);
+            }
+
+            for (int i = 0; i < statesToRun.Length; i++)
+                AnimateState(statesToRun[i]);
         }
 
         /// <summary>
@@ -53,23 +78,30 @@ namespace EC {
 
             if (component != null)
             {
+                IEnumerator anim = null;
                 switch (state.parameterType)
                 {
                     case AnimationStateParameterType.Vector2:
-                        StartCoroutine(StartAnimation(component, state.propertyName, state.vect2, state.duration, state.lerpType, state.actionOnEnd));
+                        anim = StartAnimation(component, state.propertyName, state.vect2, state.duration, state.lerpType, state.actionOnEnd);
                         break;
                     case AnimationStateParameterType.Vector3:
-                        StartCoroutine(StartAnimation(component, state.propertyName, state.vect3, state.duration, state.lerpType, state.actionOnEnd));
+                        anim = StartAnimation(component, state.propertyName, state.vect3, state.duration, state.lerpType, state.actionOnEnd);
                         break;
                     case AnimationStateParameterType.Color:
-                        StartCoroutine(StartAnimation(component, state.propertyName, state.color, state.duration, state.lerpType, state.actionOnEnd));
+                        anim = StartAnimation(component, state.propertyName, state.color, state.duration, state.lerpType, state.actionOnEnd);
                         break;
                     case AnimationStateParameterType.Integer:
-                        StartCoroutine(StartAnimation(component, state.propertyName, state.integerNum, state.duration, state.lerpType, state.actionOnEnd));
+                        anim = StartAnimation(component, state.propertyName, state.integerNum, state.duration, state.lerpType, state.actionOnEnd);
                         break;
                     case AnimationStateParameterType.Float:
-                        StartCoroutine(StartAnimation(component, state.propertyName, state.floatNum, state.duration, state.lerpType, state.actionOnEnd));
+                        anim = StartAnimation(component, state.propertyName, state.floatNum, state.duration, state.lerpType, state.actionOnEnd);
                         break;
+                }
+
+                if (anim != null)
+                {
+                    runningAnimations.Add(anim);
+                    StartCoroutine(anim);
                 }
             }
             else

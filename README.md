@@ -4,7 +4,7 @@
 
 Animate.cs is a simple script to facilitate simple animations to the properties for any Unity Component. Just add Animate as a component to the GameObject and setup the property/properties to be animated. Invoke it by its animation state index or call them all together.
 
-![Animate Component](https://drive.google.com/uc?export=view&id=195MJf8uF3BicmTWszF5eZ0y6VfEoyBf2)
+![Animate Component](https://drive.google.com/uc?export=view&id=1qjjmOM7FcjT7Pf3Moljr6Gy05w6WjzKj)
 
 Animations in the GIF:
 
