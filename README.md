@@ -33,7 +33,7 @@ The animation state needs:
  8. An (optional) **Event** that is invoked once the animation has ended. *(It may invoke another animation state to create loops).*
  9. **Linked GameObject** (optional), the animation can be linked to any GameObject.*
 
-![Animate Component](https://drive.google.com/uc?export=view&id=1apcO0V3vCe5juosVxRRdUVtO6MB3DKO9)
+![Animate Component](https://drive.google.com/uc?export=view&id=1aLN4Qqq5zj2rhfQPVCeruDU9rWadZF-Q)
 
 ### 3- Add the code to run the animation
 
