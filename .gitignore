@@ -11,6 +11,7 @@
 /[Mm]emoryCaptures/
 /[Pp]ackages/
 /[Pp]rojectSettings/
+/AssetStoreTools
 
 # Never ignore Asset meta data
 !/[Aa]ssets/**/*.meta
