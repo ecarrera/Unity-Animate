@@ -2,7 +2,7 @@
 
 ## Animate any Component in the Unity Editor with ease
 
-Animate.cs is an simple script to facilitate simple animations to the properties for any Unity Component. Just add Animate as a component to the GameObject and setup the property/properties to be animated. Invoke it by its animation state index or call them all together.
+Animate.cs is a simple script to facilitate simple animations to the properties for any Unity Component. Just add Animate as a component to the GameObject and setup the property/properties to be animated. Invoke it by its animation state index or call them all together.
 
 
 ![Animate Component](https://drive.google.com/uc?export=view&id=1WcttilGOeApi1DhxvMcBnECEnD7ISfpx)
@@ -23,7 +23,7 @@ Animations in the GIF:
 
 The animation state needs:
 
- 1. An **state name** (optional).
+ 1. A **state name** (optional).
  2. The *exact* **Component type name** (required): It must be the exact name of the component to animate its property.
  3. The *exact* **property name** of the component to be animated.
  4. **Duration in seconds** of the animation.
