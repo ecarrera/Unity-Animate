@@ -23,7 +23,7 @@ Animations in the GIF:
 
 The animation state needs:
 
- 1. An **state name** (optional).
+ 1. A **state name** (optional).
  2. The *exact* **Component type name** (required): It must be the exact name of the component to animate its property.
  3. The *exact* **property name** of the component to be animated.
  4. **Duration in seconds** of the animation.
