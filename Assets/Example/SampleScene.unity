@@ -572,17 +572,17 @@ MonoBehaviour:
     propertyName: position
     duration: 5
     lerpType: 5
-    actionOnEnd:
-      m_PersistentCalls:
-        m_Calls: []
-      m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
     parameterType: 1
     vect2: {x: 0, y: 0}
     vect3: {x: 0, y: 1.71, z: -10}
     color: {r: 0, g: 0, b: 0, a: 0}
     integerNum: 0
     floatNum: 0
+    actionOnEnd:
+      m_PersistentCalls:
+        m_Calls: []
+      m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
 --- !u!1 &1327399976
 GameObject:
   m_ObjectHideFlags: 0
@@ -795,7 +795,7 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 1
+          m_IntArgument: 2
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -858,6 +858,12 @@ MonoBehaviour:
     propertyName: color
     duration: 0.5
     lerpType: 2
+    parameterType: 2
+    vect2: {x: 0, y: 0}
+    vect3: {x: 0, y: 0, z: 0}
+    color: {r: 1, g: 0.8291087, b: 0, a: 1}
+    integerNum: 0
+    floatNum: 0
     actionOnEnd:
       m_PersistentCalls:
         m_Calls:
@@ -874,33 +880,33 @@ MonoBehaviour:
           m_CallState: 2
       m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
-    parameterType: 2
-    vect2: {x: 0, y: 0}
-    vect3: {x: 0, y: 0, z: 0}
-    color: {r: 1, g: 0.8291087, b: 0, a: 1}
-    integerNum: 0
-    floatNum: 0
   - stateName: Scale
     componentType: Transform
     propertyName: localScale
     duration: 0.5
     lerpType: 2
-    actionOnEnd:
-      m_PersistentCalls:
-        m_Calls: []
-      m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
     parameterType: 1
     vect2: {x: 0, y: 0}
     vect3: {x: 2, y: 2, z: 2}
     color: {r: 1, g: 0.8291087, b: 0, a: 1}
     integerNum: 0
     floatNum: 0
+    actionOnEnd:
+      m_PersistentCalls:
+        m_Calls: []
+      m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
   - stateName: Scale
     componentType: Transform
     propertyName: localScale
     duration: 0.25
     lerpType: 1
+    parameterType: 1
+    vect2: {x: 0, y: 0}
+    vect3: {x: 0, y: 0, z: 0}
+    color: {r: 1, g: 0.8291087, b: 0, a: 1}
+    integerNum: 0
+    floatNum: 0
     actionOnEnd:
       m_PersistentCalls:
         m_Calls:
@@ -917,12 +923,6 @@ MonoBehaviour:
           m_CallState: 2
       m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
-    parameterType: 1
-    vect2: {x: 0, y: 0}
-    vect3: {x: 0, y: 0, z: 0}
-    color: {r: 1, g: 0.8291087, b: 0, a: 1}
-    integerNum: 0
-    floatNum: 0
 --- !u!1 &1859761915
 GameObject:
   m_ObjectHideFlags: 0
@@ -1030,54 +1030,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   states:
-  - stateName: Scale
-    componentType: Transform
-    propertyName: eulerAngles
-    duration: 60
-    lerpType: 0
-    actionOnEnd:
-      m_PersistentCalls:
-        m_Calls: []
-      m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-    parameterType: 1
-    vect2: {x: 0, y: 0}
-    vect3: {x: 0, y: 5000, z: 0}
-    color: {r: 0, g: 0, b: 0, a: 0}
-    integerNum: 0
-    floatNum: 0
-  - stateName: bounce up
+  - stateName: Position test animation
     componentType: Transform
     propertyName: position
     duration: 0.5
     lerpType: 2
-    actionOnEnd:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1859761920}
-          m_MethodName: AnimateState
-          m_Mode: 3
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 2
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-      m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
     parameterType: 1
-    vect2: {x: 0, y: 0}
+    vect2: {x: 0, y: 10}
     vect3: {x: 0, y: 3, z: 0}
     color: {r: 0, g: 0, b: 0, a: 0}
     integerNum: 0
     floatNum: 0
-  - stateName: bounce down
-    componentType: Transform
-    propertyName: position
-    duration: 0.5
-    lerpType: 1
     actionOnEnd:
       m_PersistentCalls:
         m_Calls:
@@ -1094,9 +1057,46 @@ MonoBehaviour:
           m_CallState: 2
       m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
+  - stateName: Position test animation
+    componentType: Transform
+    propertyName: position
+    duration: 0.5
+    lerpType: 1
     parameterType: 1
     vect2: {x: 0, y: 0}
     vect3: {x: 0, y: 0, z: 0}
     color: {r: 0, g: 0, b: 0, a: 0}
     integerNum: 0
     floatNum: 0
+    actionOnEnd:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1859761920}
+          m_MethodName: AnimateState
+          m_Mode: 3
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+  - stateName: Position test animation
+    componentType: Transform
+    propertyName: eulerAngles
+    duration: 60
+    lerpType: 0
+    parameterType: 1
+    vect2: {x: 0, y: 10}
+    vect3: {x: 0, y: 5000, z: 0}
+    color: {r: 0, g: 0, b: 0, a: 0}
+    integerNum: 0
+    floatNum: 0
+    actionOnEnd:
+      m_PersistentCalls:
+        m_Calls: []
+      m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null

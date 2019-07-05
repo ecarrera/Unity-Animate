@@ -15,7 +15,6 @@ namespace EC {
         public string propertyName;
         public float duration = 1f;
         public LERP_TYPE lerpType = LERP_TYPE.LINEAR;
-        public UnityEngine.Events.UnityEvent actionOnEnd;
 
         public AnimationStateParameterType parameterType;
         [ConditionalField("parameterType", AnimationStateParameterType.Vector2)] public Vector2 vect2;
@@ -23,6 +22,8 @@ namespace EC {
         [ConditionalField("parameterType", AnimationStateParameterType.Color)] public Color color;
         [ConditionalField("parameterType", AnimationStateParameterType.Integer)] public int integerNum;
         [ConditionalField("parameterType", AnimationStateParameterType.Float)] public float floatNum;
+
+        public UnityEngine.Events.UnityEvent actionOnEnd;
     }
 
     public class Animate : MonoBehaviour
