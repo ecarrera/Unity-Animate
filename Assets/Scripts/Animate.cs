@@ -24,6 +24,9 @@ namespace EC {
         [ConditionalField("parameterType", AnimationStateParameterType.Float)] public float floatNum;
 
         public UnityEngine.Events.UnityEvent actionOnEnd;
+
+        public bool linkedAnimation;
+        [ConditionalField("linkedAnimation", true)] public GameObject linkedGameObject;
     }
 
     public class Animate : MonoBehaviour
@@ -46,7 +49,7 @@ namespace EC {
         public void AnimateState(int stateIndex)
         {
             AnimationState state = states[stateIndex];
-            Component component = gameObject.GetComponent(state.componentType);
+            Component component = state.linkedAnimation ? state.linkedGameObject.GetComponent(state.componentType) : gameObject.GetComponent(state.componentType);
 
             if (component != null)
             {
