@@ -129,47 +129,16 @@ The animation state needs:
 
 To start all the animation states together:
 
-  
-
-  
-
 ```csharp
-
-  
-
 GetComponent<Animate>().RunAnimations();
-
-  
-
 ```
-
-  
-
-  
 
 If you prefer to run animation state separated (*example for the first state*):
 
-  
-
-  
-
 ```csharp
-
-  
-
 int  stateIndex = 0;
-
-  
-
 GetComponent<Animate>().AnimateState(stateIndex);
-
-  
-
-```
-
-  
-
-  
+```  
 
 ## What it does not do?
 
@@ -177,23 +146,9 @@ GetComponent<Animate>().AnimateState(stateIndex);
 
 The script can not run nested properties. Ex: Trying to animate the color of the material in a MeshRenderer.
 
-  
-
-  
-
 ```csharp
-
-  
-
 GetComponent<MeshRenderer>().material.color
-
-  
-
 ```
-
-  
-
-  
 
 ## Working parameter types
 
@@ -233,7 +188,7 @@ This component is not recommended for heavy use of animations as it use ***Syste
 
   
 
-The ease use of the component facilitate to create multiple types of animations for UI interactions and very simple 3d animations.
+The easy use of the component facilitate to create multiple types of animations for UI interactions and very simple 3d animations.
 
   
 
