@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
 using MyBox;
+using System.Linq;
 
 namespace EC {
 
@@ -33,7 +34,62 @@ namespace EC {
     public class Animate : MonoBehaviour
 	{
 		public AnimationState[] states;
+        AnimationState[] initialStates;
         List<IEnumerator> runningAnimations = new List<IEnumerator>();
+
+        public bool advanced;
+        [ConditionalField("advanced", true)] public LERP_TYPE resetLerpType = LERP_TYPE.LINEAR;
+        [ConditionalField("advanced", true)] public float resetDuration;
+
+        private void Start()
+        {
+            GetInitialComponentStates();
+        }
+
+        /// <summary>
+        /// Get the initial values of the component properties states
+        /// </summary>
+        void GetInitialComponentStates()
+        {
+            List<string> addedInitialStates = new List<string>() { };
+
+            initialStates = new AnimationState[states.Length];
+            for (int i = 0; i < initialStates.Length; i++)
+            {
+                // Add unique Component+Property states
+                if (!addedInitialStates.Contains(states[i].componentType + states[i].propertyName))
+                {
+                    initialStates[i] = new AnimationState();
+                    initialStates[i].componentType = states[i].componentType;
+                    initialStates[i].propertyName = states[i].propertyName;
+                    initialStates[i].parameterType = states[i].parameterType;
+                    initialStates[i].linkedAnimation = states[i].linkedAnimation;
+                    initialStates[i].linkedGameObject = states[i].linkedGameObject;
+                    Component component = initialStates[i].linkedAnimation ? initialStates[i].linkedGameObject.GetComponent(initialStates[i].componentType) : gameObject.GetComponent(initialStates[i].componentType);
+
+                    switch (initialStates[i].parameterType)
+                    {
+                        case AnimationStateParameterType.Vector2:
+                            initialStates[i].vect2 = GetPropertyValue<Vector2>(component, initialStates[i].propertyName);
+                            break;
+                        case AnimationStateParameterType.Vector3:
+                            initialStates[i].vect3 = GetPropertyValue<Vector3>(component, initialStates[i].propertyName);
+                            break;
+                        case AnimationStateParameterType.Color:
+                            initialStates[i].color = GetPropertyValue<Color>(component, initialStates[i].propertyName);
+                            break;
+                        case AnimationStateParameterType.Integer:
+                            initialStates[i].integerNum = GetPropertyValue<int>(component, initialStates[i].propertyName);
+                            break;
+                        case AnimationStateParameterType.Float:
+                            initialStates[i].floatNum = GetPropertyValue<float>(component, initialStates[i].propertyName);
+                            break;
+                    }
+
+                    addedInitialStates.Add(states[i].componentType + states[i].propertyName);
+                }
+            }
+        }
 
         /// <summary>
         /// Run all state animations
@@ -41,11 +97,7 @@ namespace EC {
         public void RunAnimations(bool stopRunning = false)
         {
             if (stopRunning)
-            {
-                for (int i = 0; i < runningAnimations.Count; i++)
-                    if (runningAnimations[i] != null)
-                        StopCoroutine(runningAnimations[i]);
-            }
+                StopRunningAnimations();
 
             for (int i = 0; i < states.Length; i++)
                 AnimateState(i);
@@ -54,17 +106,72 @@ namespace EC {
         /// <summary>
         /// Runs the array of state animations
         /// </summary>
-        public void RunAnimations(int[] statesToRun,bool stopRunning = false)
+        public void RunAnimations(int[] statesToRun, bool stopRunning = false)
         {
+            Debug.Log("Running Animations: " + statesToRun);
+
             if (stopRunning)
-            {
-                for (int i = 0; i < runningAnimations.Count; i++)
-                    if (runningAnimations[i] != null)
-                        StopCoroutine(runningAnimations[i]);
-            }
+                StopRunningAnimations();
 
             for (int i = 0; i < statesToRun.Length; i++)
                 AnimateState(statesToRun[i]);
+        }
+
+        /// <summary>
+        /// Stops the running animations
+        /// </summary>
+        void StopRunningAnimations()
+        {
+            for (int i = 0; i < runningAnimations.Count; i++)
+                if (runningAnimations[i] != null)
+                    StopCoroutine(runningAnimations[i]);
+
+            runningAnimations.Clear();
+        }
+
+        /// <summary>
+        /// Runs the array of state animations
+        /// </summary>
+        public void Reset()
+        {
+            Debug.Log("Resetting Animations");
+
+            StopRunningAnimations();
+
+            for (int i=0; i<initialStates.Length; i++)
+            {
+                AnimationState state = initialStates[i];
+                Component component = state.linkedAnimation ? state.linkedGameObject.GetComponent(state.componentType) : gameObject.GetComponent(state.componentType);
+
+                if (component != null)
+                {
+                    IEnumerator anim = null;
+                    switch (initialStates[i].parameterType)
+                    {
+                        case AnimationStateParameterType.Vector2:
+                            anim = StartAnimation(component, state.propertyName, state.vect2, resetDuration, resetLerpType, state.actionOnEnd);
+                            break;
+                        case AnimationStateParameterType.Vector3:
+                            anim = StartAnimation(component, state.propertyName, state.vect3, resetDuration, resetLerpType, state.actionOnEnd);
+                            break;
+                        case AnimationStateParameterType.Color:
+                            anim = StartAnimation(component, state.propertyName, state.color, resetDuration, resetLerpType, state.actionOnEnd);
+                            break;
+                        case AnimationStateParameterType.Integer:
+                            anim = StartAnimation(component, state.propertyName, state.integerNum, resetDuration, resetLerpType, state.actionOnEnd);
+                            break;
+                        case AnimationStateParameterType.Float:
+                            anim = StartAnimation(component, state.propertyName, state.floatNum, resetDuration, resetLerpType, state.actionOnEnd);
+                            break;
+                    }
+
+                    if (anim != null)
+                    {
+                        runningAnimations.Add(anim);
+                        StartCoroutine(anim);
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -126,6 +233,8 @@ namespace EC {
                 yield return null;
             }
 
+            SetProperty(component, propertyName, endValue);
+
             if (actionOnEnd != null)
                 actionOnEnd.Invoke();
         }
@@ -147,6 +256,8 @@ namespace EC {
                 SetProperty(component, propertyName, Vector3.Lerp(initialValue, endValue, curve));
                 yield return null;
             }
+
+            SetProperty(component, propertyName, endValue);
 
             if (actionOnEnd != null)
                 actionOnEnd.Invoke();
@@ -170,6 +281,8 @@ namespace EC {
                 yield return null;
             }
 
+            SetProperty(component, propertyName, endValue);
+
             if (actionOnEnd != null)
                 actionOnEnd.Invoke();
         }
@@ -192,6 +305,8 @@ namespace EC {
                 yield return null;
             }
 
+            SetProperty(component, propertyName, endValue);
+
             if (actionOnEnd != null)
                 actionOnEnd.Invoke();
         }
@@ -213,6 +328,8 @@ namespace EC {
                 SetProperty(component, propertyName, Mathf.Lerp(initialValue, endValue, curve));
                 yield return null;
             }
+
+            SetProperty(component, propertyName, endValue);
 
             if (actionOnEnd != null)
                 actionOnEnd.Invoke();
