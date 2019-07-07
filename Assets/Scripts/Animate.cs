@@ -56,8 +56,11 @@ namespace EC {
             initialStates = new AnimationState[states.Length];
             for (int i = 0; i < initialStates.Length; i++)
             {
-                // Add unique Component+Property states
-                if (!addedInitialStates.Contains(states[i].componentType + states[i].propertyName))
+                int instanceId = states[i].linkedAnimation ? states[i].linkedGameObject.GetInstanceID() : GetInstanceID();
+
+                // Add unique states: instanceId+Component+Property
+
+                if (!addedInitialStates.Contains(instanceId + states[i].componentType + states[i].propertyName))
                 {
                     initialStates[i] = new AnimationState();
                     initialStates[i].componentType = states[i].componentType;
@@ -86,7 +89,7 @@ namespace EC {
                             break;
                     }
 
-                    addedInitialStates.Add(states[i].componentType + states[i].propertyName);
+                    addedInitialStates.Add(instanceId + states[i].componentType + states[i].propertyName);
                 }
             }
         }
@@ -108,8 +111,6 @@ namespace EC {
         /// </summary>
         public void RunAnimations(int[] statesToRun, bool stopRunning = false)
         {
-            Debug.Log("Running Animations: " + statesToRun);
-
             if (stopRunning)
                 StopRunningAnimations();
 
@@ -134,41 +135,43 @@ namespace EC {
         /// </summary>
         public void Reset()
         {
-            Debug.Log("Resetting Animations");
-
             StopRunningAnimations();
 
             for (int i=0; i<initialStates.Length; i++)
             {
                 AnimationState state = initialStates[i];
-                Component component = state.linkedAnimation ? state.linkedGameObject.GetComponent(state.componentType) : gameObject.GetComponent(state.componentType);
 
-                if (component != null)
+                if (state != null)
                 {
-                    IEnumerator anim = null;
-                    switch (initialStates[i].parameterType)
-                    {
-                        case AnimationStateParameterType.Vector2:
-                            anim = StartAnimation(component, state.propertyName, state.vect2, resetDuration, resetLerpType, state.actionOnEnd);
-                            break;
-                        case AnimationStateParameterType.Vector3:
-                            anim = StartAnimation(component, state.propertyName, state.vect3, resetDuration, resetLerpType, state.actionOnEnd);
-                            break;
-                        case AnimationStateParameterType.Color:
-                            anim = StartAnimation(component, state.propertyName, state.color, resetDuration, resetLerpType, state.actionOnEnd);
-                            break;
-                        case AnimationStateParameterType.Integer:
-                            anim = StartAnimation(component, state.propertyName, state.integerNum, resetDuration, resetLerpType, state.actionOnEnd);
-                            break;
-                        case AnimationStateParameterType.Float:
-                            anim = StartAnimation(component, state.propertyName, state.floatNum, resetDuration, resetLerpType, state.actionOnEnd);
-                            break;
-                    }
+                    Component component = state.linkedAnimation ? state.linkedGameObject.GetComponent(state.componentType) : gameObject.GetComponent(state.componentType);
 
-                    if (anim != null)
+                    if (component != null)
                     {
-                        runningAnimations.Add(anim);
-                        StartCoroutine(anim);
+                        IEnumerator anim = null;
+                        switch (initialStates[i].parameterType)
+                        {
+                            case AnimationStateParameterType.Vector2:
+                                anim = StartAnimation(component, state.propertyName, state.vect2, resetDuration, resetLerpType, state.actionOnEnd);
+                                break;
+                            case AnimationStateParameterType.Vector3:
+                                anim = StartAnimation(component, state.propertyName, state.vect3, resetDuration, resetLerpType, state.actionOnEnd);
+                                break;
+                            case AnimationStateParameterType.Color:
+                                anim = StartAnimation(component, state.propertyName, state.color, resetDuration, resetLerpType, state.actionOnEnd);
+                                break;
+                            case AnimationStateParameterType.Integer:
+                                anim = StartAnimation(component, state.propertyName, state.integerNum, resetDuration, resetLerpType, state.actionOnEnd);
+                                break;
+                            case AnimationStateParameterType.Float:
+                                anim = StartAnimation(component, state.propertyName, state.floatNum, resetDuration, resetLerpType, state.actionOnEnd);
+                                break;
+                        }
+
+                        if (anim != null)
+                        {
+                            runningAnimations.Add(anim);
+                            StartCoroutine(anim);
+                        }
                     }
                 }
             }
